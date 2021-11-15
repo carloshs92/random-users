@@ -7,6 +7,7 @@ export class UserRepository {
       name: response.data.results[0].name.first,
       lastName: response.data.results[0].name.last,
       email: response.data.results[0].email,
+      phoneNumber: response.data.results[0].phone,
     }
   }
 }

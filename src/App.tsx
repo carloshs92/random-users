@@ -21,6 +21,7 @@ const App = () => {
         Name: {currentUser?.name} <br/>
         Last Name: {currentUser?.lastName} <br/>
         Email: {currentUser?.email} <br/>
+        Phone Number: {currentUser?.phoneNumber} <br/>
       </p>
     </div>
   );

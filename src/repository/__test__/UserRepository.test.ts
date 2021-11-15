@@ -84,7 +84,8 @@ describe('UserRepository', () => {
       expect(response).toEqual({
         name: 'Juan',
         lastName: 'Perez',
-        email: 'jperez@foobar.com'
+        email: 'jperez@foobar.com',
+        phoneNumber: '011-962-7516'
       });
       expect(axios.get).toBeCalledWith('https://randomuser.me/api/');
     });
