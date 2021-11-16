@@ -1,28 +1,41 @@
-import React, {useEffect, useState} from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
-import {userService} from "./service";
-import {User} from "./domain/User";
+import useDomain from './hooks/useDomain';
+import { User } from './domain/User/IUser';
 
-const App = () => {
-  const [currentUser, setCurrentUser] = useState<User>();
+const App: React.FC = () => {
+  const { data: users, isLoading, isError, run } = useDomain<User[]>({
+    initState: [],
+    initRun: async (domain) =>  await domain.getUsersUseCase()
+  });
 
-  useEffect(() => {
-    const findRandomUser = async () => setCurrentUser(await userService.findRandomUser())
-    findRandomUser();
-  }, []);
+  const getNewUser = () => {
+    run(async (domain) => await domain.getUsersUseCase());
+  }
+  
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo"/>
-      </header>
-      <p>
-        Name: {currentUser?.name} <br/>
-        Last Name: {currentUser?.lastName} <br/>
-        Email: {currentUser?.email} <br/>
-        Phone Number: {currentUser?.phoneNumber} <br/>
-      </p>
+      <div className="App__cards">
+        {
+          users.map((user: User) => (
+            <div key={user.id} className={`App__card ${user?.active ? 'App__card--active' : ''}`}>
+              <div data-testid="name"><b>Name:</b> {user?.name}</div>
+              <div data-testid="lastName"><b>Last Name:</b> {user?.lastName}</div>
+              <div data-testid="email"><b>Email:</b> {user?.email}</div>
+              <div data-testid="phone"><b>Phone Number:</b> {user?.phoneNumber}</div>
+            </div>
+          ))
+        }
+      </div>
+      <button className="App__button" onClick={getNewUser}>Get new user</button>
     </div>
   );
 }
