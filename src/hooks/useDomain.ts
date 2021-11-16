@@ -15,7 +15,7 @@ const useDomain = <T>({ initRun, initState = null }: IUseDomain<T>  = {}) => {
   const [data, setData] = useState(initState);
   const [status, setStatus] = useState<StatusType>("idle");
   const [error, setError] = useState<any>(null);
-console.log(data)
+
   const executeUseCase = async (run: RunType<T>) => {
     setStatus("pending");
     setError(null);
